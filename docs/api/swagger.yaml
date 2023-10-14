@@ -43,7 +43,7 @@ components:
           format: uuid
           example: 7d249c01-6844-4a99-b4ed-479bf2e5a639
           description: Place UUID
-        api_id:
+        place_id:
           type: string
           format: string
           example: ChIJgUbEo8cfqokR5lP9_Wh_DaM

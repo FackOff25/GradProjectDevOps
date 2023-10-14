@@ -24,6 +24,17 @@ paths:
           $ref: '#/components/responses/Internal'
 components:
   schemas:
+    Coordinates:
+      type: object
+      properties:
+        lat: 
+          type: number
+          example: -33.866489
+          description: Latitude in decimal degrees
+        lng: 
+          type: number
+          example: 151.1958561
+          description: Longitude in decimal degrees
     Place:
       type: object
       properties:
@@ -52,7 +63,9 @@ components:
         rating_count:
           type: integer
           example: 54861
-          description: number of rates
+          description: Number of rates
+        location:
+          $ref: '#/components/schemas/Coordinates'
   responses:
     PlacesResponse:
       description: Places OK responses

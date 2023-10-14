@@ -16,6 +16,8 @@ paths:
       responses:
         200:
           $ref: '#/components/responses/PlacesResponse'
+        400:
+          $ref: '#/components/responses/BadRequest'
         404:
           $ref: '#/components/responses/NotFound'
         500:
@@ -60,12 +62,20 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/Place'
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          examples:
+            BAD/REQUEST:
+              value:
+                error: BAD/REQUEST
     NotFound:
       description: Resource not found
       content:
         application/json:
           examples:
-            BAD/REQUEST:
+            NOT/FOUND:
               value:
                 error: NOT/FOUND
     Internal:

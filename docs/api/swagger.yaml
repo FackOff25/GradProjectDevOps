@@ -1,0 +1,86 @@
+openapi: 3.0.1
+info:
+  title: Документация API между клиентом и беком для Go Explore
+  version: 0.0.1
+servers:
+  - url: https://<backend url>/api/v1
+tags:
+  - name: places
+    description: API для работы с местами
+paths:
+  /places/list:
+    get:
+      tags:
+        - places
+      summary: "Информация по местам"
+      responses:
+        200:
+          $ref: '#/components/responses/PlacesResponse'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/Internal'
+components:
+  schemas:
+    Place:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 7d249c01-6844-4a99-b4ed-479bf2e5a639
+          description: Place UUID
+        api_id:
+          type: string
+          format: string
+          example: ChIJgUbEo8cfqokR5lP9_Wh_DaM
+          description: Places API id
+        name:
+          type: string
+          example: Московский Кремль
+          description: Place's name
+        cover:
+          type: string
+          example: https://lh5.googleusercontent.com/p/AF1QipMImrKNC6PKPQrUEI4GvXoqyhF05Pbk7CkYNXZ1=w408-h255-k-no
+          description: Place's cover image url
+        rating:
+          type: number
+          example: 4.7
+          description: Place's rating
+        rating_count:
+          type: integer
+          example: 54861
+          description: number of rates
+  responses:
+    PlacesResponse:
+      description: Places OK responses
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/Place'
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          examples:
+            BAD/REQUEST:
+              value:
+                error: BAD/REQUEST
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          examples:
+            NOT/FOUND:
+              value:
+                error: NOT/FOUND
+    Internal:
+      description: Internal server error
+      content:
+        application/json:
+          example:
+            error: INTERNAL

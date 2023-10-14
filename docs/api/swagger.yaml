@@ -8,7 +8,7 @@ tags:
   - name: places
     description: API для работы с местами
 paths:
-  /places/url:
+  /places/list:
     get:
       tags:
         - places

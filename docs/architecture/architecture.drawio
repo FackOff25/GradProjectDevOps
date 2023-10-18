@@ -1,4 +1,4 @@
-<mxfile host="app.diagrams.net" modified="2023-10-17T18:07:47.710Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0" etag="7AO-LGzTmcLIPPwIDXZE" version="22.0.4" type="google">
+<mxfile host="app.diagrams.net" modified="2023-10-18T17:59:59.442Z" agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:109.0) Gecko/20100101 Firefox/118.0" etag="sNMeumu4fWkkll9H9Xrg" version="22.0.4" type="google">
   <diagram name="Страница 1" id="NkFAbn7RfcykyeF4z9RC">
     <mxGraphModel grid="1" page="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" pageScale="1" pageWidth="827" pageHeight="1169" math="0" shadow="0">
       <root>
@@ -77,10 +77,10 @@
         <mxCell id="vuxt3YbbIAJVM2-I1PCV-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.5;entryY=1;entryDx=0;entryDy=0;exitX=1;exitY=0.75;exitDx=0;exitDy=0;" edge="1" parent="1" source="uioIVMZ6H3G2-EyA1evk-37" target="uioIVMZ6H3G2-EyA1evk-27">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="uioIVMZ6H3G2-EyA1evk-37" value="Отдача мест" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="uioIVMZ6H3G2-EyA1evk-37" value="Репозиторий мест" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="360" y="530" width="120" height="70" as="geometry" />
         </mxCell>
-        <mxCell id="VwGzcDIVaSwoGlvS-t9A-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=classic;startFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" target="uioIVMZ6H3G2-EyA1evk-10" source="uioIVMZ6H3G2-EyA1evk-37">
+        <mxCell id="VwGzcDIVaSwoGlvS-t9A-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;startArrow=classic;startFill=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=1;entryDx=0;entryDy=0;entryPerimeter=0;" edge="1" parent="1" source="uioIVMZ6H3G2-EyA1evk-37" target="uioIVMZ6H3G2-EyA1evk-10">
           <mxGeometry relative="1" as="geometry">
             <mxPoint x="480" y="580" as="sourcePoint" />
             <Array as="points">
@@ -95,7 +95,7 @@
         <mxCell id="AViJuVo01RT9uURBv1hO-2" value="" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;entryX=0.975;entryY=0.688;entryDx=0;entryDy=0;startArrow=classic;startFill=1;entryPerimeter=0;" edge="1" parent="1" source="AViJuVo01RT9uURBv1hO-1" target="uioIVMZ6H3G2-EyA1evk-5">
           <mxGeometry relative="1" as="geometry" />
         </mxCell>
-        <mxCell id="AViJuVo01RT9uURBv1hO-1" value="Отметка мест" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+        <mxCell id="AViJuVo01RT9uURBv1hO-1" value="Предложка" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
           <mxGeometry x="359" y="420" width="121" height="60" as="geometry" />
         </mxCell>
       </root>

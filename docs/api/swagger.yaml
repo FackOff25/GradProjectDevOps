@@ -93,37 +93,48 @@ components:
         place_id:
           type: string
           format: string
-          example: ChIJgUbEo8cfqokR5lP9_Wh_DaM
+          example: ChIJfRJDflpKtUYRl0UbgcrmUUk"
           description: Places API id
         name:
           type: string
-          example: Московский Кремль
+          example: Государственный исторический музей
           description: Place's name
-        cover:
-          type: string
-          example: https://lh5.googleusercontent.com/p/AF1QipMImrKNC6PKPQrUEI4GvXoqyhF05Pbk7CkYNXZ1=w408-h255-k-no
-          description: Place's cover image url
         rating:
           type: number
-          example: 4.7
+          example: 4.6
           description: Place's rating
         rating_count:
           type: integer
-          example: 54861
+          example: 2039
           description: Number of rates
         location:
           $ref: '#/components/schemas/Coordinates'
         description:
           type: string
-          description: Place's description
+          example: "Музей в здании 1881 года: древние реликвии, произведения искусства из коллекции Романовых и многое другое."
+          description: Place's description (seems to abscent most of time)
         photos:
           type: array
           items:
             type: string
+            example: https://lh5.googleusercontent.com/p/AF1QipMImrKNC6PKPQrUEI4GvXoqyhF05Pbk7CkYNXZ1=w408-h255-k-no
           description: Place's photos
         address:
           type: string
+          example: Красная пл., 1, Москва, Россия, 109012
           description: Place's address
+        workingHours:
+          type: array
+          items:
+            type: string
+            example: "среда: 10:00–18:00"
+            description: "Place's workingHours in format \"Day: startTime-endTime\""
+        tags:
+          type: array
+          items:
+            type: string
+            example: Музей
+          description: list of place's tags
   responses:
     PlacesResponse:
       description: Places OK responses

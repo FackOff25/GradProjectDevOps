@@ -3,7 +3,10 @@ info:
   title: Документация API между клиентом и беком для Go Explore
   version: 0.0.1
 servers:
-  - url: https://<backend url>/api/v1
+  - url: http://go-explore.ru/api/v1
+    description: Prod
+  - url: http://go-explore.online/api/v1
+    description: Dev
 tags:
   - name: places
     description: API для работы с местами
@@ -29,6 +32,14 @@ paths:
       tags:
         - places
       summary: "Информация по месту"
+      parameters:
+        - in: path
+          name: place_id
+          schema:
+            type: string
+            example: ChIJgUbEo8cfqokR5lP9_Wh_DaM
+          required: true
+          description: google api place id
       responses:
         200:
           $ref: '#/components/responses/PlaceInfoResponse'
@@ -59,11 +70,6 @@ components:
           format: uuid
           example: 7d249c01-6844-4a99-b4ed-479bf2e5a639
           description: Place UUID
-        place_id:
-          type: string
-          format: string
-          example: ChIJgUbEo8cfqokR5lP9_Wh_DaM
-          description: Places API id
         name:
           type: string
           example: Московский Кремль

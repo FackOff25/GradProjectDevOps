@@ -33,11 +33,11 @@ paths:
         - places
       summary: "Информация по месту"
       parameters:
-        - in: path
+        - in: query
           name: place_id
           schema:
             type: string
-            example: ChIJgUbEo8cfqokR5lP9_Wh_DaM
+            example: ChIJfRJDflpKtUYRl0UbgcrmUUk
           required: true
           description: google api place id
       responses:

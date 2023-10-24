@@ -7,6 +7,8 @@ servers:
 tags:
   - name: places
     description: API для работы с местами
+  - name: suggest
+    description: API для работы с предложкой
 paths:
   /places/list:
     get:
@@ -16,6 +18,20 @@ paths:
       responses:
         200:
           $ref: '#/components/responses/PlacesResponse'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/Internal'
+  /places/info:
+    get:
+      tags:
+        - places
+      summary: "Информация по месту"
+      responses:
+        200:
+          $ref: '#/components/responses/PlaceInfoResponse'
         400:
           $ref: '#/components/responses/BadRequest'
         404:
@@ -66,6 +82,59 @@ components:
           description: Number of rates
         location:
           $ref: '#/components/schemas/Coordinates'
+    AdvancedPlace:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 7d249c01-6844-4a99-b4ed-479bf2e5a639
+          description: Place UUID
+        place_id:
+          type: string
+          format: string
+          example: ChIJfRJDflpKtUYRl0UbgcrmUUk"
+          description: Places API id
+        name:
+          type: string
+          example: Государственный исторический музей
+          description: Place's name
+        rating:
+          type: number
+          example: 4.6
+          description: Place's rating
+        rating_count:
+          type: integer
+          example: 2039
+          description: Number of rates
+        location:
+          $ref: '#/components/schemas/Coordinates'
+        description:
+          type: string
+          example: "Музей в здании 1881 года: древние реликвии, произведения искусства из коллекции Романовых и многое другое."
+          description: Place's description (seems to abscent most of time)
+        photos:
+          type: array
+          items:
+            type: string
+            example: https://lh5.googleusercontent.com/p/AF1QipMImrKNC6PKPQrUEI4GvXoqyhF05Pbk7CkYNXZ1=w408-h255-k-no
+          description: Place's photos
+        address:
+          type: string
+          example: Красная пл., 1, Москва, Россия, 109012
+          description: Place's address
+        workingHours:
+          type: array
+          items:
+            type: string
+            example: "среда: 10:00–18:00"
+            description: "Place's workingHours in format \"Day: startTime-endTime\""
+        tags:
+          type: array
+          items:
+            type: string
+            example: Музей
+          description: list of place's tags
   responses:
     PlacesResponse:
       description: Places OK responses
@@ -75,6 +144,12 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/Place'
+    PlaceInfoResponse:
+      description: Place Info OK responses
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AdvancedPlace'
     BadRequest:
       description: Bad request
       content:

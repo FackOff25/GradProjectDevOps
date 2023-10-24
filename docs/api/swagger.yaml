@@ -7,6 +7,8 @@ servers:
 tags:
   - name: places
     description: API для работы с местами
+  - name: suggest
+    description: API для работы с предложкой
 paths:
   /places/list:
     get:
@@ -16,6 +18,20 @@ paths:
       responses:
         200:
           $ref: '#/components/responses/PlacesResponse'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/Internal'
+  /places/info:
+    get:
+      tags:
+        - places
+      summary: "Информация по месту"
+      responses:
+        200:
+          $ref: '#/components/responses/PlaceInfoResponse'
         400:
           $ref: '#/components/responses/BadRequest'
         404:
@@ -66,6 +82,48 @@ components:
           description: Number of rates
         location:
           $ref: '#/components/schemas/Coordinates'
+    AdvancedPlace:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 7d249c01-6844-4a99-b4ed-479bf2e5a639
+          description: Place UUID
+        place_id:
+          type: string
+          format: string
+          example: ChIJgUbEo8cfqokR5lP9_Wh_DaM
+          description: Places API id
+        name:
+          type: string
+          example: Московский Кремль
+          description: Place's name
+        cover:
+          type: string
+          example: https://lh5.googleusercontent.com/p/AF1QipMImrKNC6PKPQrUEI4GvXoqyhF05Pbk7CkYNXZ1=w408-h255-k-no
+          description: Place's cover image url
+        rating:
+          type: number
+          example: 4.7
+          description: Place's rating
+        rating_count:
+          type: integer
+          example: 54861
+          description: Number of rates
+        location:
+          $ref: '#/components/schemas/Coordinates'
+        description:
+          type: string
+          description: Place's description
+        photos:
+          type: array
+          items:
+            type: string
+          description: Place's photos
+        address:
+          type: string
+          description: Place's address
   responses:
     PlacesResponse:
       description: Places OK responses
@@ -75,6 +133,12 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/Place'
+    PlaceInfoResponse:
+      description: Place Info OK responses
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/AdvancedPlace'
     BadRequest:
       description: Bad request
       content:

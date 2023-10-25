@@ -3,7 +3,10 @@ info:
   title: Документация API между клиентом и беком для Go Explore
   version: 0.0.1
 servers:
-  - url: https://<backend url>/api/v1
+  - url: http://go-explore.ru/api/v1
+    description: Prod
+  - url: http://go-explore.online/api/v1
+    description: Dev
 tags:
   - name: places
     description: API для работы с местами
@@ -29,6 +32,14 @@ paths:
       tags:
         - places
       summary: "Информация по месту"
+      parameters:
+        - in: query
+          name: place_id
+          schema:
+            type: string
+            example: ChIJfRJDflpKtUYRl0UbgcrmUUk
+          required: true
+          description: google api place id
       responses:
         200:
           $ref: '#/components/responses/PlaceInfoResponse'
@@ -59,11 +70,6 @@ components:
           format: uuid
           example: 7d249c01-6844-4a99-b4ed-479bf2e5a639
           description: Place UUID
-        place_id:
-          type: string
-          format: string
-          example: ChIJgUbEo8cfqokR5lP9_Wh_DaM
-          description: Places API id
         name:
           type: string
           example: Московский Кремль
@@ -93,37 +99,48 @@ components:
         place_id:
           type: string
           format: string
-          example: ChIJgUbEo8cfqokR5lP9_Wh_DaM
+          example: ChIJfRJDflpKtUYRl0UbgcrmUUk"
           description: Places API id
         name:
           type: string
-          example: Московский Кремль
+          example: Государственный исторический музей
           description: Place's name
-        cover:
-          type: string
-          example: https://lh5.googleusercontent.com/p/AF1QipMImrKNC6PKPQrUEI4GvXoqyhF05Pbk7CkYNXZ1=w408-h255-k-no
-          description: Place's cover image url
         rating:
           type: number
-          example: 4.7
+          example: 4.6
           description: Place's rating
         rating_count:
           type: integer
-          example: 54861
+          example: 2039
           description: Number of rates
         location:
           $ref: '#/components/schemas/Coordinates'
         description:
           type: string
-          description: Place's description
+          example: "Музей в здании 1881 года: древние реликвии, произведения искусства из коллекции Романовых и многое другое."
+          description: Place's description (seems to abscent most of time)
         photos:
           type: array
           items:
             type: string
+            example: https://lh5.googleusercontent.com/p/AF1QipMImrKNC6PKPQrUEI4GvXoqyhF05Pbk7CkYNXZ1=w408-h255-k-no
           description: Place's photos
         address:
           type: string
+          example: Красная пл., 1, Москва, Россия, 109012
           description: Place's address
+        workingHours:
+          type: array
+          items:
+            type: string
+            example: "среда: 10:00–18:00"
+            description: "Place's workingHours in format \"Day: startTime-endTime\""
+        tags:
+          type: array
+          items:
+            type: string
+            example: Музей
+          description: list of place's tags
   responses:
     PlacesResponse:
       description: Places OK responses

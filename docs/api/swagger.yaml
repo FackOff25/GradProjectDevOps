@@ -49,6 +49,35 @@ paths:
           $ref: '#/components/responses/NotFound'
         500:
           $ref: '#/components/responses/Internal'
+  /suggest/nearby:
+    get:
+      tags:
+        - suggest
+      summary: "Предложка ближайших мест"
+      parameters:
+        - in: query
+          name: location
+          schema:
+            type: string
+            example: 55.7520233,37.6174994
+          required: true
+          description: client's location
+        - in: query
+          name: radius
+          schema:
+            type: string
+            example: 50000
+          required: false
+          description: search radius in meters
+      responses:
+        200:
+          $ref: '#/components/responses/NearbyPlacesResponse'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/Internal'
 components:
   schemas:
     Coordinates:
@@ -141,6 +170,29 @@ components:
             type: string
             example: Музей
           description: list of place's tags
+    NearbyPlace:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: 7d249c01-6844-4a99-b4ed-479bf2e5a639
+          description: Place UUID
+        place_id:
+          type: string
+          format: string
+          example: ChIJgUbEo8cfqokR5lP9_Wh_DaM
+          description: Places API id
+        name:
+          type: string
+          example: Московский Кремль
+          description: Place's name
+        location:
+          $ref: '#/components/schemas/Coordinates'
+        cover:
+          type: string
+          example: https://lh5.googleusercontent.com/p/AF1QipMImrKNC6PKPQrUEI4GvXoqyhF05Pbk7CkYNXZ1=w408-h255-k-no
+          description: Place's cover image url
   responses:
     PlacesResponse:
       description: Places OK responses
@@ -156,6 +208,14 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/AdvancedPlace'
+    NearbyPlacesResponse:
+      description: Nearby places OK responses
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/NearbyPlace'
     BadRequest:
       description: Bad request
       content:

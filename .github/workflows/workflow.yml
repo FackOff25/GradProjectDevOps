@@ -21,6 +21,7 @@ jobs:
         id: nginx-dev-check
         shell: bash
         run: |
+          git fetch --prune --unshallow
           CHANGED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }})
           if [[ $CHANGED_FILES[*] =~ "nginx/go-explore_dev.conf" ]]; then 
             echo "nginx-dev=true" >> "$GITHUB_OUTPUT"

@@ -21,6 +21,7 @@ jobs:
         id: nginx-dev-check
         shell: bash
         run: |
+          git pull
           if [[ "${{ github.event_name  == 'pull_request' }}" == "true" ]]; then
             CHANGED_FILES=$(git diff --name-only -r HEAD^1 HEAD | xargs)
           else

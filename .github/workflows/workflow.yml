@@ -12,8 +12,8 @@ jobs:
   check-changes:
     runs-on: ubuntu-latest
     outputs:
-      nginx-dev: ${{ steps.output.nginx-dev }}
-      nginx-prod: ${{ steps.output.nginx-prod }}
+      nginx-dev: ${{ steps.nginx-dev-check.outputs.nginx-dev }}
+      nginx-prod: ${{ steps.nginx-prod-check.outputs.nginx-prod }}
 
     steps:
       - uses: actions/checkout@v3

@@ -21,13 +21,7 @@ jobs:
         id: nginx-dev-check
         shell: bash
         run: |
-          git pull
-          if [[ "${{ github.event_name  == 'pull_request' }}" == "true" ]]; then
-            CHANGED_FILES=$(git diff --name-only -r HEAD^1 HEAD | xargs)
-          else
-            CHANGED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | xargs)
-          fi
-
+          CHANGED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }})
           if [[ $CHANGED_FILES[*] =~ "nginx/go-explore_dev.conf" ]]; then 
             echo "nginx-dev=true" >> "$GITHUB_OUTPUT"
           else

@@ -56,7 +56,7 @@ jobs:
           include: nginx/go-explore_dev.conf
 
       - name: Rename config
-        run: mv nginx/go-explore_dev.conf nginx/go-explore
+        run: mv nginx/go-explore_dev.conf go-explore
 
       - name: Transfer build files to server
         uses: appleboy/scp-action@master
@@ -75,7 +75,7 @@ jobs:
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SHH_PRIVATE_KEY }}
           script: |
-            sudo cp /home/ubuntu/go-explore /etc/nginx/sites-enabled/
+            sudo mv /home/ubuntu/go-explore /etc/nginx/sites-enabled/
             sudo nginx -t 2>/dev/null > /dev/null
             if [[ $? == 0 ]]; then
               sudo systemctl restart nginx

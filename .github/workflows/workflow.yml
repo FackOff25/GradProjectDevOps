@@ -2,10 +2,10 @@ name: DevOps
 
 on:
   push:
-    #branches:
-    #  - master
-    #paths:
-    #  nginx/*
+    branches:
+      - master
+    paths:
+      nginx/**
 
 jobs:
 
@@ -72,6 +72,47 @@ jobs:
         uses: appleboy/ssh-action@v0.1.6
         with:
           host: ${{ secrets.DEV_HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SHH_PRIVATE_KEY }}
+          script: |
+            sudo mv /home/ubuntu/go-explore /etc/nginx/sites-enabled/
+            sudo nginx -t 2>/dev/null > /dev/null
+            if [[ $? == 0 ]]; then
+              sudo systemctl restart nginx
+            else
+              exit 1
+            fi
+
+  deploy-nginx-prod:
+    runs-on: ubuntu-latest
+    needs: check-changes
+    if: ${{ needs.check-changes.outputs.nginx-prod == 'true' }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Find and Replace header
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: "@PROXY-HEADER@"
+          replace: ${{ secrets.PROXY_HEADER }}
+          include: nginx/go-explore_prod.conf
+
+      - name: Rename config
+        run: mv nginx/go-explore_prod.conf go-explore
+
+      - name: Transfer build files to server
+        uses: appleboy/scp-action@master
+        with:
+          host: ${{ secrets.PROD_HOST }}
+          username: ${{ secrets.USERNAME }}
+          key: ${{ secrets.SHH_PRIVATE_KEY }}
+          source: "go-explore"
+          target: "/home/ubuntu/"
+          overwrite: true
+
+      - name: Connect and (re)starting nginx
+        uses: appleboy/ssh-action@v0.1.6
+        with:
+          host: ${{ secrets.PROD_HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SHH_PRIVATE_KEY }}
           script: |

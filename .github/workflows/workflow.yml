@@ -64,7 +64,7 @@ jobs:
           host: ${{ secrets.DEV_HOST }}
           username: ${{ secrets.USERNAME }}
           key: ${{ secrets.SHH_PRIVATE_KEY }}
-          source: "nginx/go-explore"
+          source: "go-explore"
           target: "/home/ubuntu/"
           overwrite: true
 

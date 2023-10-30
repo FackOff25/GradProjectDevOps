@@ -21,7 +21,7 @@ jobs:
         id: nginx-dev-check
         shell: bash
         run: |
-          if ${{ github.event_name == 'pull_request' }}; then
+          if [[ ${{ github.event_name }} == 'pull_request' ]]; then
             CHANGED_FILES=$(git diff --name-only -r HEAD^1 HEAD | xargs)
           else
             CHANGED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | xargs)
@@ -38,12 +38,12 @@ jobs:
         id: nginx-prod-check
         shell: bash
         run: |
-          if ${{ github.event_name == 'pull_request' }}; then
+          if [[ ${{ github.event_name }} == 'pull_request' ]]; then
             CHANGED_FILES=$(git diff --name-only -r HEAD^1 HEAD | xargs)
           else
             CHANGED_FILES=$(git diff --name-only ${{ github.event.before }} ${{ github.event.after }} | xargs)
           fi
-          
+
           if [[ $CHANGED_FILES[*] =~ "nginx/go-explore_prod.conf" ]]; then 
             echo "nginx-prod=true" >> "$GITHUB_OUTPUT"
           else

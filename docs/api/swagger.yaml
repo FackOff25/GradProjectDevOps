@@ -173,7 +173,7 @@ components:
         reaction:
           type: string
           description: reaction to place
-          enum: [like, visited]
+          enum: [like, visited, refuse]
           example: visited
     Coordinates:
       type: object
@@ -361,3 +361,4 @@ components:
         application/json:
           example:
             error: CONFLICT
+            

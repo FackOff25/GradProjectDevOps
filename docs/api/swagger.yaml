@@ -67,19 +67,114 @@ paths:
           schema:
             type: string
             example: 50000
+            default: 5000
           required: false
           description: search radius in meters
+        - in: query
+          name: limit
+          schema:
+            type: number
+            example: 20
+            default: 20
+          required: false
+          description: Numper of places in response
+        - in: query
+          name: offset
+          schema:
+            type: number
+            example: 20
+            default: 0
+          required: false
+          description: Offset of places in response
+        - in: header
+          name: X-UUID
+          schema:
+            type: string
+            example: 7d249c01-6844-4a99-b4ed-479bf2e5a639
+          required: true
+          description: Offset of places in response
       responses:
         200:
           $ref: '#/components/responses/NearbyPlacesResponse'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        401:
+          $ref: '#/components/responses/Unauthorized'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/Internal'
+  /suggest/user/new:
+    post:
+      tags:
+        - suggest
+      summary: "Регистрация нового пользователя"
+      parameters:
+        - in: header
+          name: X-UUID
+          schema:
+            type: string
+            example: 7d249c01-6844-4a99-b4ed-479bf2e5a639
+          required: true
+          description: Offset of places in response
+      responses:
+        200:
+          $ref: '#/components/responses/OK'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        409:
+          $ref: '#/components/responses/Conflict'
+        500:
+          $ref: '#/components/responses/Internal'
+  /suggest/reaction:
+    post:
+      tags:
+        - suggest
+      summary: "Реакция на место"
+      parameters:
+        - in: header
+          name: X-UUID
+          schema:
+            type: string
+            example: 7d249c01-6844-4a99-b4ed-479bf2e5a639
+          required: true
+          description: Offset of places in response
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PlaceReaction'
+      responses:
+        200:
+          $ref: '#/components/responses/OK'
         400:
           $ref: '#/components/responses/BadRequest'
         404:
           $ref: '#/components/responses/NotFound'
         500:
           $ref: '#/components/responses/Internal'
+  /suggest/ping:
+    get:
+      tags:
+        - suggest
+      summary: "Ping"
+      responses:
+        200:
+          $ref: '#/components/responses/OK'
 components:
   schemas:
+    PlaceReaction:
+      type: object
+      properties:
+        place_id:
+          type: string
+          example: 7d249c01-6844-4a99-b4ed-479bf2e5a639
+        reaction:
+          type: string
+          description: reaction to place
+          enum: [like, visited]
+          example: visited
     Coordinates:
       type: object
       properties:
@@ -117,14 +212,9 @@ components:
           description: Number of rates
         location:
           $ref: '#/components/schemas/Coordinates'
-    AdvancedPlace:
+    PlaceInfo:
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
-          example: 7d249c01-6844-4a99-b4ed-479bf2e5a639
-          description: Place UUID
         place_id:
           type: string
           format: string
@@ -173,11 +263,6 @@ components:
     NearbyPlace:
       type: object
       properties:
-        id:
-          type: string
-          format: uuid
-          example: 7d249c01-6844-4a99-b4ed-479bf2e5a639
-          description: Place UUID
         place_id:
           type: string
           format: string
@@ -193,6 +278,24 @@ components:
           type: string
           example: https://lh5.googleusercontent.com/p/AF1QipMImrKNC6PKPQrUEI4GvXoqyhF05Pbk7CkYNXZ1=w408-h255-k-no
           description: Place's cover image url
+        photos:
+          type: array
+          items:
+            type: string
+            example: https://lh5.googleusercontent.com/p/AF1QipMImrKNC6PKPQrUEI4GvXoqyhF05Pbk7CkYNXZ1=w408-h255-k-no
+          description: Place's photos
+        rating:
+          type: number
+          example: 4.6
+          description: Place's rating
+        rating_count:
+          type: integer
+          example: 2039
+          description: Number of rates
+        reaction:
+          type: string
+          example: like
+          description: Shows reaction to place
   responses:
     PlacesResponse:
       description: Places OK responses
@@ -207,7 +310,7 @@ components:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/AdvancedPlace'
+            $ref: '#/components/schemas/PlaceInfo'
     NearbyPlacesResponse:
       description: Nearby places OK responses
       content:
@@ -216,6 +319,14 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/NearbyPlace'
+    OK:
+      description: OK
+      content:
+        application/json:
+          examples:
+            OK:
+              value:
+                result: OK
     BadRequest:
       description: Bad request
       content:
@@ -238,3 +349,15 @@ components:
         application/json:
           example:
             error: INTERNAL
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          example:
+            error: UNAUTHORIZED
+    Conflict:
+      description: Conflict
+      content:
+        application/json:
+          example:
+            error: CONFLICT

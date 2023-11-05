@@ -5,8 +5,7 @@ DB_USER_PASS=x
 su postgres <<EOF
 createdb  $DB_NAME;
 psql -c "CREATE USER $DB_USER WITH PASSWORD '$DB_USER_PASS';"
-psql -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
-
+psql -U postgres -d $DB_NAME -c 'CREATE EXTENSION IF NOT EXISTS "uuid-ossp";'
 
 psql -U postgres -d  $DB_NAME -c "CREATE TABLE IF NOT EXISTS users (
 	id							uuid DEFAULT uuid_generate_v4 () PRIMARY KEY,

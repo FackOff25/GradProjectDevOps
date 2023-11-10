@@ -321,6 +321,8 @@ components:
           format: string
           example: ChIJgUbEo8cfqokR5lP9_Wh_DaM
           description: Places API id
+        location:
+          $ref: '#/components/schemas/Coordinates'
     P2PRoute:
       type: object
       properties:

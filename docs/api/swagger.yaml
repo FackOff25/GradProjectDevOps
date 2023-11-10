@@ -162,6 +162,23 @@ paths:
       responses:
         200:
           $ref: '#/components/responses/OK'
+          
+  /suggest/route:
+    post:
+      tags:
+        - suggest
+      summary: "Запрос маршрута"
+      requestBody:
+        $ref: '#/components/requestBodies/RouteRequestBody'
+      responses:
+        200:
+          $ref: '#/components/responses/RouteResponse'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/Internal'
 components:
   schemas:
     PlaceReaction:
@@ -169,7 +186,7 @@ components:
       properties:
         place_id:
           type: string
-          example: 7d249c01-6844-4a99-b4ed-479bf2e5a639
+          example: ChIJfRJDflpKtUYRl0UbgcrmUUk
         reaction:
           type: string
           description: reaction to place
@@ -218,7 +235,7 @@ components:
         place_id:
           type: string
           format: string
-          example: ChIJfRJDflpKtUYRl0UbgcrmUUk"
+          example: ChIJfRJDflpKtUYRl0UbgcrmUUk
           description: Places API id
         name:
           type: string
@@ -236,7 +253,7 @@ components:
           $ref: '#/components/schemas/Coordinates'
         description:
           type: string
-          example: "Музей в здании 1881 года: древние реликвии, произведения искусства из коллекции Романовых и многое другое."
+          example: "Музей в здании 1881 года: древние реликвии, произведения искусства из коллекции Романовых и многое другое."
           description: Place's description (seems to abscent most of time)
         photos:
           type: array
@@ -278,12 +295,6 @@ components:
           type: string
           example: https://lh5.googleusercontent.com/p/AF1QipMImrKNC6PKPQrUEI4GvXoqyhF05Pbk7CkYNXZ1=w408-h255-k-no
           description: Place's cover image url
-        photos:
-          type: array
-          items:
-            type: string
-            example: https://lh5.googleusercontent.com/p/AF1QipMImrKNC6PKPQrUEI4GvXoqyhF05Pbk7CkYNXZ1=w408-h255-k-no
-          description: Place's photos
         rating:
           type: number
           example: 4.6
@@ -296,6 +307,46 @@ components:
           type: string
           example: like
           description: Shows reaction to place
+    TravelType:
+      description: a way how to
+      enum: [DRIVE, BICYCLE, WALK, TWO_WHEELER, TRANSIT]
+      default: DRIVE
+      example: DRIVE
+    TravelWaypoint:
+      description: travel waypoint
+      type: object
+      properties:
+        place_id:
+          type: string
+          format: string
+          example: ChIJgUbEo8cfqokR5lP9_Wh_DaM
+          description: Places API id
+    P2PRoute:
+      type: object
+      properties:
+        polyline:
+          type: string
+          description: Route's polyline
+          example: ipkcFfichVnP@j@BLoFVwM{E?
+  requestBodies:
+    RouteRequestBody:
+      required: true
+      description: Route request body
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              travel_mode:
+                $ref: '#/components/schemas/TravelType'
+              start:
+                $ref: '#/components/schemas/Coordinates'
+              end:
+                $ref: '#/components/schemas/Coordinates'
+              waypoints:
+                type: array
+                items:
+                   $ref: '#/components/schemas/TravelWaypoint'
   responses:
     PlacesResponse:
       description: Places OK responses
@@ -319,6 +370,19 @@ components:
             type: array
             items:
               $ref: '#/components/schemas/NearbyPlace'
+    RouteResponse:
+      description: Route OK responses
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              travel_mode:
+                $ref: '#/components/schemas/TravelType'
+              route:
+                type: array
+                items:
+                  $ref: '#/components/schemas/P2PRoute'
     OK:
       description: OK
       content:

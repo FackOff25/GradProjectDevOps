@@ -54,8 +54,7 @@ jobs:
           find: "@PROXY-HEADER@"
           replace: ${{ secrets.PROXY_HEADER }}
           include: nginx/go-explore_dev.conf
-
-      - uses: actions/checkout@v3
+          
       - name: Find and Replace api key
         uses: jacobtomlinson/gha-find-replace@v3
         with:

@@ -103,6 +103,13 @@ jobs:
           replace: ${{ secrets.PROXY_HEADER }}
           include: nginx/go-explore_prod.conf
 
+      - name: Find and Replace api key
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: "@API-KEY@"
+          replace: ${{ secrets.API_KEY }}
+          include: nginx/go-explore_prod.conf
+
       - name: Rename config
         run: mv nginx/go-explore_prod.conf go-explore
 

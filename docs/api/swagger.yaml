@@ -190,7 +190,7 @@ components:
         reaction:
           type: string
           description: reaction to place
-          enum: [like, visited, refuse]
+          enum: [like, unlike, visited, unvisited, refuse, unrefuse]
           example: visited
     Coordinates:
       type: object

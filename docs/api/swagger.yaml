@@ -455,7 +455,11 @@ components:
           schema:
             type: object
             properties:
-              places:
+              start:
+                $ref: '#/components/schemas/Coordinates'
+              end:
+                $ref: '#/components/schemas/Coordinates'
+              waypoints:
                 type: array
                 items: 
                   $ref: '#/components/schemas/Coordinates'

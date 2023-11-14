@@ -86,6 +86,13 @@ paths:
             default: 0
           required: false
           description: Offset of places in response
+        - in: query
+          name: types
+          schema:
+            type: string
+            example: Музей,Парк
+          required: false
+          description: List of specified categories to search among (if omit search in all), separated by comma
         - in: header
           name: X-UUID
           schema:
@@ -173,6 +180,36 @@ paths:
       responses:
         200:
           $ref: '#/components/responses/RouteResponse'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/Internal'
+  /suggest/route/sortPlaces:
+    post:
+      tags:
+        - suggest
+      summary: "Сортировка мест для оптимального маршрута"
+      requestBody:
+        $ref: '#/components/requestBodies/SortPlacesBody'
+      responses:
+        200:
+          $ref: '#/components/responses/SortPlacesResponse'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/Internal'
+  /suggest/categories/list:
+    get:
+      tags:
+        - suggest
+      summary: "Получение используемых категорий (типов) мест"
+      responses:
+        200:
+          $ref: '#/components/responses/CategoriesListResponse'
         400:
           $ref: '#/components/responses/BadRequest'
         404:
@@ -277,6 +314,13 @@ components:
             type: string
             example: Музей
           description: list of place's tags
+        reactions:
+          type: array
+          items:
+            type: string
+            description: reaction to place
+            enum: [like, visited]
+            example: visited
     NearbyPlace:
       type: object
       properties:
@@ -303,10 +347,13 @@ components:
           type: integer
           example: 2039
           description: Number of rates
-        reaction:
-          type: string
-          example: like
-          description: Shows reaction to place
+        reactions:
+          type: array
+          items:
+            type: string
+            description: reaction to place
+            enum: [like, visited]
+            example: visited
     TravelType:
       description: a way how to
       enum: [DRIVE, BICYCLE, WALK, TWO_WHEELER, TRANSIT]
@@ -349,6 +396,22 @@ components:
                 type: array
                 items:
                    $ref: '#/components/schemas/TravelWaypoint'
+    SortPlacesBody:
+      required: true
+      description: Sort places request body
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              start:
+                $ref: '#/components/schemas/Coordinates'
+              end:
+                $ref: '#/components/schemas/Coordinates'
+              waypoints:
+                type: array
+                items:
+                   $ref: '#/components/schemas/Coordinates'
   responses:
     PlacesResponse:
       description: Places OK responses
@@ -385,6 +448,29 @@ components:
                 type: array
                 items:
                   $ref: '#/components/schemas/P2PRoute'
+    SortPlacesResponse:
+      description: Sort places OK responses
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              places:
+                type: array
+                items: 
+                  $ref: '#/components/schemas/Coordinates'
+    CategoriesListResponse:
+      description: Categories list OK responses
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              categories:
+                type: array
+                items: 
+                  type: string
+                  example: Музей
     OK:
       description: OK
       content:

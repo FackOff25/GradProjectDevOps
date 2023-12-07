@@ -123,7 +123,7 @@ paths:
             type: string
             example: 7d249c01-6844-4a99-b4ed-479bf2e5a639
           required: true
-          description: Offset of places in response
+          description: genered uuid for new user
       responses:
         200:
           $ref: '#/components/responses/OK'
@@ -210,6 +210,30 @@ paths:
       responses:
         200:
           $ref: '#/components/responses/CategoriesListResponse'
+        400:
+          $ref: '#/components/responses/BadRequest'
+        404:
+          $ref: '#/components/responses/NotFound'
+        500:
+          $ref: '#/components/responses/Internal'
+  /suggest/reaction/initial:
+    post:
+      tags:
+        - suggest
+      summary: "Отправка предпочтений пользователя при первом заходе"
+      parameters:
+        - in: header
+          name: X-UUID
+          schema:
+            type: string
+            example: 7d249c01-6844-4a99-b4ed-479bf2e5a639
+          required: true
+          description: genered uuid for new user
+      requestBody:
+        $ref: '#/components/requestBodies/PostPrefsBody'
+      responses:
+        200:
+          $ref: '#/components/responses/OK'
         400:
           $ref: '#/components/responses/BadRequest'
         404:
@@ -412,6 +436,19 @@ components:
                 type: array
                 items:
                    $ref: '#/components/schemas/Coordinates'
+    PostPrefsBody:
+      required: true
+      description: Post initial preferences request body
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              primary:
+                type: array
+                items: 
+                  type: string
+                  example: Музей 
   responses:
     PlacesResponse:
       description: Places OK responses

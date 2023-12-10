@@ -90,16 +90,9 @@ paths:
           name: types
           schema:
             type: string
-            example: Музей,Парк
+            example: Музей,Парк,like,visited
           required: false
           description: List of specified categories to search among (if omit search in all), separated by comma
-        - in: query
-          name: reactions
-          schema:
-            type: string
-            example: like,visited
-          required: false
-          description: List of reactions to places to search among (if omit search in all), separated by comma
         - in: header
           name: X-UUID
           schema:

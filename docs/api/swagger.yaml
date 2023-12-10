@@ -90,7 +90,7 @@ paths:
           name: types
           schema:
             type: string
-            example: Музей,Парк
+            example: Музей,Парк,Избранное,Не посещенное
           required: false
           description: List of specified categories to search among (if omit search in all), separated by comma
         - in: header
